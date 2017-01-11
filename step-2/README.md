@@ -1,2 +1,4 @@
 # 安装 Vue.js
-``npm install vue``
+```
+npm install vue
+```
