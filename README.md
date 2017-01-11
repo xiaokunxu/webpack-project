@@ -1,9 +1,8 @@
-# webpack-demo
-###安装所需插件和环境;
-- npm i babel-loader babel-core babel-preset-es2015 babel-preset-react
+# Resumer
+一个在线简历编辑器
 
-# 如何运行 webpack
-### 1.安装 Node.js和NPM
-### 2.npm i -g webpack
-### 3.npm i babel-loader babel-core babel-preset-es2015 babel-preset-react
-### 4.运行 webpack
+# step-1
+使用目前最新的模块加载器：Webpack
+
+# step-2
+使用 Vue.js
