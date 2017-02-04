@@ -6,7 +6,7 @@
 4. 打开 page.html
 
 # 预览
-[]()
+[](https://xiaokunxu.github.io/webpack-demo/step-3/page.html)
 
 # TodoList
 ### 基本功能
