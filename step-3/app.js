@@ -15,13 +15,13 @@ var app = new Vue({
   	let oldDataString = window.localStrorage.getItem('myTodos')
   	let oldData = JSON.parse(oldDataString)
   	this.todoList = oldData || []
-  	
+
   },
   methods: {
     addTodo: function(){
       this.todoList.push({
         title: this.newTodo,
-        createdAt: new Date(),
+        createTime: new Date().Format("yyyy-MM-dd hh:mm:ss"),
         done: false // 添加一个 done 属性
       })
       this.newTodo = '' // 变成空
