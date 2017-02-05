@@ -1,10 +1,24 @@
 import Vue from 'vue'
+import AV from 'leancloud-storage'
+
+var APP_ID = '1KPqugUTvNs5gOaRwq0veCOO-gzGzoHsz';
+var APP_KEY = '0GW1Fa6sjXfK9104QPdgRnvG';
+AV.init({
+  appId: APP_ID,
+  appKey: APP_KEY
+});
 
 var app = new Vue({
 	    el: '#app',
 	    data: {
 	    newTodo: '',
-	    todoList: []
+	    todoList: [],
+	    actionType: 'signUp',
+    	formData: {
+     	 	username: '',
+      		password: ''
+	    },
+	    currentUser: null,
     },
   
     methods: {
@@ -28,28 +42,58 @@ var app = new Vue({
 	        	createTime: time,
 	        	done: false // 添加一个 done 属性
 	        })
-	    this.newTodo = '' // 变成空
-    }, 
-    removeTodo: function(todo){
+	    	this.newTodo = '' // 变成空
+    	}, 
+	    removeTodo: function(todo){
     		let index = this.todoList.indexOf(todo)
     		this.todoList.splice(index,1)
-    	}
-    },
-    craeted: function(){
-  		window.onbeforeunload = ()=>{
-  			let dataString = JSON.stringify(this.tosoList)
-  			let newTodoString = JSON.stringify(this.newTodo)
-  			window.localStrorage.setItem('myTodos', dataString)
-  			window.localStrorage.setItem('newTodoString', newTodoString)
-  		}
+	    },
+	    signUp: function () {
+	    	let user = new AV.User();
+	    	// 设置用户名
+	    	user.setUsername(this.formData.username);
+	    	// 设置密码
+	    	user.setPassword(this.formData.password);
+	    	user.signUp().then((loginedUser) => {
+	    		this.currentUser = this.getCurrentUser();
+	    	}, (error) => {
+	    		alert('注册失败')
+	    	});
+	    },
+	    login: function () {
+        	AV.User.logIn(this.formData.username, this.formData.password).then((loginedUser) => {
+        		this.currentUser = this.getCurrentUser();
+        	}, function (error) {
+        		alert('登录失败')
+      		});
+	    },
+	    logout: function () {
+	    	AV.User.logOut();
+	    	this.currentUser = null;
+	    	window.location.reload();
+	    },
+	    getCurrentUser: function () {
+	    	let {id, createdAt, attributes: {username}} = AV.User.current()
+	    	return {id, username, createdAt}
+	    },
+	    created: function(){
+	  		window.onbeforeunload = ()=>{
+	  			let dataString = JSON.stringify(this.tosoList)
+	  			let newTodoString = JSON.stringify(this.newTodo)
+	  			window.localStorage.setItem('myTodos', dataString)
+	  			window.localStorage.setItem('newTodoString', newTodoString)
+	  		}
 
-  		let oldDataString = window.localStrorage.getItem('myTodos')
-  		let newTodoString = window.localStrorage.getItem('newTodoString')
+	  		let oldDataString = window.localStorage.getItem('myTodos')
+	  		let newTodoString = window.localStorage.getItem('newTodoString')
 
-  		let oldData = JSON.parse(oldDataString)
-  		let newTodo = JSON.parse(newTodoString)
-  		this.todoList = oldData || []
-  		this.newTodo = newTodo || ""
-    }
+	  		let oldData = JSON.parse(oldDataString)
+	  		let newTodo = JSON.parse(newTodoString)
+	  		this.todoList = oldData || []
+	  		this.newTodo = newTodo || ""
+
+	  		this.currentUser = this.getCurrentUser();
+	    }
+	}
 })      
 

@@ -5,7 +5,18 @@ var app = new Vue({
 	    data: {
 	    newTodo: '',
 	    todoList: []
-    },
+    	},
+    	created: function(){
+	  		window.onbeforeunload = ()=>{
+	  			let dataString = JSON.stringify(this.tosoList)
+	  			window.localStorage.setItem('myTodos', dataString)
+	  		}
+
+	  		let oldDataString = window.localStorage.getItem('myTodos')
+
+	  		let oldData = JSON.parse(oldDataString)
+	  		this.todoList = oldData || []
+	  	},
   
     methods: {
 	    addTodo: function(){
@@ -28,28 +39,13 @@ var app = new Vue({
 	        	createTime: time,
 	        	done: false // 添加一个 done 属性
 	        })
-	    this.newTodo = '' // 变成空
-    }, 
-    removeTodo: function(todo){
+	    	this.newTodo = '' // 变成空
+    	}, 
+	    removeTodo: function(todo){
     		let index = this.todoList.indexOf(todo)
     		this.todoList.splice(index,1)
-    	}
-    },
-    craeted: function(){
-  		window.onbeforeunload = ()=>{
-  			let dataString = JSON.stringify(this.tosoList)
-  			let newTodoString = JSON.stringify(this.newTodo)
-  			window.localStrorage.setItem('myTodos', dataString)
-  			window.localStrorage.setItem('newTodoString', newTodoString)
-  		}
-
-  		let oldDataString = window.localStrorage.getItem('myTodos')
-  		let newTodoString = window.localStrorage.getItem('newTodoString')
-
-  		let oldData = JSON.parse(oldDataString)
-  		let newTodo = JSON.parse(newTodoString)
-  		this.todoList = oldData || []
-  		this.newTodo = newTodo || ""
+	    },
+	    
     }
 })      
 

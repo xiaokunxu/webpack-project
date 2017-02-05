@@ -53,37 +53,53 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var app = new _vue2.default({
-	  el: '#app',
-	  data: {
-	    newTodo: '',
-	    todoList: []
-	  },
-	  craeted: function craeted() {
-	    var _this = this;
+				el: '#app',
+				data: {
+							newTodo: '',
+							todoList: []
+				},
 
-	    window.onbeforeunload = function () {
-	      var dataString = JSON.stringify(_this.tosoList);
-	      window.localStrorage.setItem('myTodos', dataString);
-	    };
+				methods: {
+							addTodo: function addTodo() {
+										var date = new Date();
+										var year = date.getFullYear(),
+										    month = parseInt(date.getMonth() + 1),
+										    day = date.getDate(),
+										    hours = date.getHours(),
+										    min = date.getMinutes(),
+										    sec = date.getSeconds();
 
-	    var oldDataString = window.localStrorage.getItem('myTodos');
-	    var oldData = JSON.parse(oldDataString);
-	    this.todoList = oldData || [];
-	  },
-	  methods: {
-	    addTodo: function addTodo() {
-	      this.todoList.push({
-	        title: this.newTodo,
-	        createdAt: new Date(),
-	        done: false // 添加一个 done 属性
-	      });
-	      this.newTodo = ''; // 变成空
-	    },
-	    removeTodo: function removeTodo(todo) {
-	      var index = this.todoList.indexOf(todo);
-	      this.todoList.splice(index, 1);
-	    }
-	  }
+										var time = year + "-" + (month < 10 ? "0" : "") + month + "-" + (day < 10 ? "0" : "") + day + "-" + (hours < 10 ? "0" : "") + hours + ":" + (min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec;
+										this.todoList.push({
+													title: this.newTodo,
+													createTime: time,
+													done: false // 添加一个 done 属性
+										});
+										this.newTodo = ''; // 变成空
+							},
+							removeTodo: function removeTodo(todo) {
+										var index = this.todoList.indexOf(todo);
+										this.todoList.splice(index, 1);
+							},
+							created: function created() {
+										var _this = this;
+
+										window.onbeforeunload = function () {
+													var dataString = JSON.stringify(_this.tosoList);
+													var newTodoString = JSON.stringify(_this.newTodo);
+													window.localStorage.setItem('myTodos', dataString);
+													window.localStorage.setItem('newTodoString', newTodoString);
+										};
+
+										var oldDataString = window.localStorage.getItem('myTodos');
+										var newTodoString = window.localStorage.getItem('newTodoString');
+
+										var oldData = JSON.parse(oldDataString);
+										var newTodo = JSON.parse(newTodoString);
+										this.todoList = oldData || [];
+										this.newTodo = newTodo || "";
+							}
+				}
 	});
 
 /***/ },
