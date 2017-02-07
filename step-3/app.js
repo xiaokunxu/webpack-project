@@ -6,21 +6,29 @@ var app = new Vue({
 	    newTodo: '',
 	    todoList: []
     	},
-    	created: function(){
-	  		window.onbeforeunload = ()=>{
-	  			let dataString = JSON.stringify(this.tosoList)
-	  			window.localStorage.setItem('myTodos', dataString)
-	  		}
+    	
+    created() {
+		//将数据保存在localStorage里防止关闭浏览器丢失
+    	window.onbeforeunload =()=>{
+			let dataString = JSON.stringify(this.todoList);
+    		window.localStorage.setItem('myTodos',dataString);
+      		let todoString = JSON.stringify(this.newTodo);
+      		window.localStorage.setItem('newTodo',todoString);
+		}
+		let oldDataString = window.localStorage.getItem('myTodos')
+		let oldData = JSON.parse(oldDataString)
+		this.todoList = oldData || []
 
-	  		let oldDataString = window.localStorage.getItem('myTodos')
-
-	  		let oldData = JSON.parse(oldDataString)
-	  		this.todoList = oldData || []
-	  	},
-  
+		let oldTodos = window.localStorage.getItem('newTodo')
+		let oldTodo = JSON.parse(oldTodos)
+		this.newTodo = oldTodo || ''
+	},
     methods: {
 	    addTodo: function(){
-	    	var date = new Date();
+	    	if(!/\S/g.test(this.newTodo)){
+				return alert('不能为空哟！')
+			}
+	    	var date = new Date(); // 获取当前时间
 	    	var year = date.getFullYear(),
 	    		month = parseInt(date.getMonth()+1),
 	    		day = date.getDate(),
@@ -36,7 +44,7 @@ var app = new Vue({
 	    		+ (sec<10?"0":"")+sec;
 	        this.todoList.push({
 	            title: this.newTodo,
-	        	createTime: time,
+	        	createdAt: time,
 	        	done: false // 添加一个 done 属性
 	        })
 	    	this.newTodo = '' // 变成空
@@ -44,8 +52,7 @@ var app = new Vue({
 	    removeTodo: function(todo){
     		let index = this.todoList.indexOf(todo)
     		this.todoList.splice(index,1)
-	    },
-	    
+	    } 
     }
 })      
 

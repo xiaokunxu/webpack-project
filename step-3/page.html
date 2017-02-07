@@ -57,8 +57,7 @@
 			<div class="active">
 	            <span v-if="todo.done">已完成</span>
 	            <span v-else>未完成</span>
-	            <!-- <span>创建时间</span> -->
-	            <span>{{ todo.createTime }}</span>
+	            <span>{{ todo.createdAt }}</span>
 	            <button @click="removeTodo(todo)">X</button>
             </div>
         </li>

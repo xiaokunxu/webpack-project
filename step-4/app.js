@@ -9,20 +9,41 @@ AV.init({
 });
 
 var app = new Vue({
-	    el: '#app',
-	    data: {
+    el: '#app',
+    data: {
 	    newTodo: '',
 	    todoList: [],
 	    actionType: 'signUp',
     	formData: {
-     	 	username: '',
+     		username: '',
       		password: ''
 	    },
 	    currentUser: null,
     },
-  
+
+    created() {
+		//将数据保存在localStorage里防止关闭浏览器丢失
+    	window.onbeforeunload =()=>{
+			let dataString = JSON.stringify(this.todoList);
+    		window.localStorage.setItem('myTodos',dataString);
+      		let todoString = JSON.stringify(this.newTodo);
+      		window.localStorage.setItem('newTodo',todoString);
+		}
+		let oldDataString = window.localStorage.getItem('myTodos')
+		let oldData = JSON.parse(oldDataString)
+		this.todoList = oldData || []
+
+		let oldTodos = window.localStorage.getItem('newTodo')
+		let oldTodo = JSON.parse(oldTodos)
+		this.newTodo = oldTodo || ''
+
+		this.currentUser = this.getCurrentUser();
+	},
     methods: {
 	    addTodo: function(){
+	    	if(!/\S/g.test(this.newTodo)){
+				return alert('不能为空哟！')
+			}
 	    	var date = new Date();
 	    	var year = date.getFullYear(),
 	    		month = parseInt(date.getMonth()+1),
@@ -39,7 +60,7 @@ var app = new Vue({
 	    		+ (sec<10?"0":"")+sec;
 	        this.todoList.push({
 	            title: this.newTodo,
-	        	createTime: time,
+	        	createdAt: time,
 	        	done: false // 添加一个 done 属性
 	        })
 	    	this.newTodo = '' // 变成空
@@ -56,6 +77,7 @@ var app = new Vue({
 	    	user.setPassword(this.formData.password);
 	    	user.signUp().then((loginedUser) => {
 	    		this.currentUser = this.getCurrentUser();
+	    		alert('注册成功')
 	    	}, (error) => {
 	    		alert('注册失败')
 	    	});
@@ -64,35 +86,23 @@ var app = new Vue({
         	AV.User.logIn(this.formData.username, this.formData.password).then((loginedUser) => {
         		this.currentUser = this.getCurrentUser();
         	}, function (error) {
-        		alert('登录失败')
+        		alert('请输入正确的用户名或密码')
       		});
 	    },
 	    logout: function () {
 	    	AV.User.logOut();
 	    	this.currentUser = null;
-	    	window.location.reload();
+	    	window.location.reload(); //重新加载
 	    },
 	    getCurrentUser: function () {
-	    	let {id, createdAt, attributes: {username}} = AV.User.current()
-	    	return {id, username, createdAt}
-	    },
-	    created: function(){
-	  		window.onbeforeunload = ()=>{
-	  			let dataString = JSON.stringify(this.tosoList)
-	  			let newTodoString = JSON.stringify(this.newTodo)
-	  			window.localStorage.setItem('myTodos', dataString)
-	  			window.localStorage.setItem('newTodoString', newTodoString)
-	  		}
-
-	  		let oldDataString = window.localStorage.getItem('myTodos')
-	  		let newTodoString = window.localStorage.getItem('newTodoString')
-
-	  		let oldData = JSON.parse(oldDataString)
-	  		let newTodo = JSON.parse(newTodoString)
-	  		this.todoList = oldData || []
-	  		this.newTodo = newTodo || ""
-
-	  		this.currentUser = this.getCurrentUser();
+	    	// 解构赋值
+	    	let current = AV.User.current()
+		    if (current) {
+		        let {id, createdAt, attributes: {username}} = current
+		        return {id, username, createdAt} 
+		    }else{
+		    	return null
+		    }
 	    }
 	}
 })      
