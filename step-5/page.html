@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  	<meta charset="utf-8">
+  	<title>个人在线简历</title>
+  	<link href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  	<style>
+  		*{
+  			margin: 0;
+  			padding: 0;
+  		}
+  		body{
+  			background: #eee;
+  		}
+		#app .container{
+			width: 320px;
+			border: 1px solid #777;
+			border-radius: 5px;
+			box-shadow: 2px 4px 18px 0 rgba(0, 0, 0, .5);
+			margin: 100px auto;
+		}
+		#app .container h1{
+			text-align: center;
+		}
+		#app .container .list{
+			text-align: center;
+			font-size: 20px;
+			padding: 6px 0;
+		}
+		#app .btn{
+			display: inline-block;
+		    text-align: center;
+		    margin: 16px 0 10px;
+		    padding: 6px 30px;
+		    font-size: 18px;
+		    color: #fff;
+    		background-color: #333;
+		}
+		#app .formRow{
+			padding: 10px;
+		}
+		#app .formActions{
+			text-align: center;
+		}
+		#app .item{
+			width: 100%;
+		    height: 50px;
+		    line-height: 50px;
+		    border: 1px solid #ccc;
+		    border-radius: 6px;
+		    outline: none;
+		    font-size: 16px;
+		    padding: 10px;
+		    box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.3);
+		}
+		#app .todos{
+			padding-left: 20px;
+			padding-top: 20px;
+		}
+		.todo{
+			width: 70%;
+			margin: 60px auto;
+		}
+		.todo .head{
+			float: right;
+		}
+		.todo .content{
+			padding-top: 40px;
+		}
+		.todos li{
+			padding: 20px;
+		}
+		.active{
+			float: right;
+		}
+		.active span{
+			margin: 30px;
+		}
+		.active button{
+			width: 30px;
+			height: 20px;
+			line-height: 20px;
+		}
+
+  	</style>
+
+</head>
+<body>
+    <div id="app">
+    	<section id="signInAndSignUp" v-if="!currentUser">
+    		<div class="container">
+	    		<h1>Todo List</h1>
+	    		<div class="list">
+	    			<label><input type="radio" name="type" v-model="actionType" value="signUp">注册</label>
+	    			<label><input type="radio" name="type" v-model="actionType" value="login">登录</label>
+	    		</div>
+	    		<div class="signUp form-group" v-if="actionType=='signUp'">
+	    			<form @submit.prevent=signUp>
+	    				<div class="formRow">
+	    					用户名:<input type="text" class="form-control" v-model="formData.username">
+	    				</div>
+	    				<div class="formRow">
+	    					密码:<input type="password" class="form-control" v-model="formData.password">
+	    				</div>
+	    				<div class="formActions">
+	    					<input type="submit" class="btn btn-default" value="注册">
+	    				</div>
+	    			</form>
+	    		</div>
+	    		<div class="login form-group" v-if="actionType=='login'">
+	    			<form @submit.prevent=login>
+	    				<div class="formRow">
+	    					用户名:<input type="text" class="form-control" v-model="formData.username">
+	    				</div>
+	    				<div class="formRow">
+	    					密码:<input type="password" class="form-control" v-model="formData.password">
+	    				</div>
+	    				<div class="formActions">
+	    					<input type="submit" class="btn btn-default" value="登录">
+	    				</div>
+	    			</form>
+	    		</div>
+    		</div>
+    	</section>
+    	<section id="todo" class="todo" v-if="currentUser">
+    		<span class="head">亲爱的{{currentUser.username}}，你好！<button @click="logout" class="logout">登出</button></span>
+    		<div class="content">
+	    		<div class="newTask">
+	      			<input type="text" class="item" v-model="newTodo" @keypress.enter="addTodo" placeholder="请输入待办事项">
+	     		</div>
+		      	<ol class="todos">
+		        	<li v-for="todo in todoList">
+		        		<input type="checkbox" v-model="todo.done">
+		            	<span class="content">{{ todo.title }}</span>
+						<div class="active">
+			            	<span v-if="todo.done">已完成</span>
+			            	<span v-else>未完成</span>
+			            	<span>{{ todo.createdAt }}</span>
+			            	<button @click="removeTodo(todo)">X</button>
+		            	</div>
+		        	</li>
+		      	</ol>
+	      	</div>
+    	</section>
+    </div>
+    <script src="bundle.js"></script>
+</body>
+</html>
