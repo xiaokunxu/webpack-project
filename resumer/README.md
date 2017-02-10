@@ -148,7 +148,7 @@ module: {
 所以新建三个 vue 文件：``Topbar、ResumeEditor、ResumePreview``
 
 ## 五、添加样式
-> 1. 添加 reset.css
+1. 添加 reset.css
 	```
 	在 App.vue 文件中添加：
 	import '.assets/reset.css'
@@ -158,23 +158,21 @@ module: {
  	*::after, *::before{box-sizing:border-box;}
 
 	```
-> 2. 添加 normalize.css
+2. 添加 normalize.css
+  ```
 	在 resumer/package.json 文件中添加：
-	```
 	"dependencies": {
     +    "normalize.css": "^5.0.0",
          "vue": "^2.1.10",
          "vue-router": "^2.2.0"
     },
-    ```
 
     在 resumer/src/App.vue 文件中添加：
-    ```
     import 'normalize.css/normalize.css'
     ```
 
-> 3. 将 normalize.css 和 reset.css 移到最前面
-> 4. 使用 flex 布局
+3. 将 normalize.css 和 reset.css 移到最前面
+4. 使用 flex 布局
 
 ## 六、生成预览链接
 首先将 ``config/index.js`` 中的 ``assetsPublicPath`` 改为 ``'/webpack-project/resumer/dist'``
@@ -185,7 +183,7 @@ $ npm run build
 最后会生成一个 dist 目录，直接预览页面就可以了（必须是 http 协议）
 
 # 预览
-()[https://xiaokunxu.github.io/webpack-project/resumer/dist/#/]
+[](https://xiaokunxu.github.io/webpack-project/resumer/dist/#/)
 
 ## Build Setup
 
