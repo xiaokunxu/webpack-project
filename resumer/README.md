@@ -16,7 +16,7 @@
 
 # 开始项目
 ## 一、初始化项目
-1. 使用 (vue-cli)[https://github.com/vuejs/vue-cli] 这个工具
+1. 使用 [vue-cli](https://github.com/vuejs/vue-cli) 这个工具
 ```
 $ mkdir resumer
 $ cd resumer
@@ -184,6 +184,7 @@ $ npm run build
 
 # 预览
 [](https://xiaokunxu.github.io/webpack-project/resumer/dist/#/)
+![](http://i1.piimg.com/567571/4d22734e24497294.jpg)
 
 ## Build Setup
 
