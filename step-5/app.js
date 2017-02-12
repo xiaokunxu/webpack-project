@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import AV from 'leancloud-storage'
+import style from './style.css'
 
 var APP_ID = '1KPqugUTvNs5gOaRwq0veCOO-gzGzoHsz';
 var APP_KEY = '0GW1Fa6sjXfK9104QPdgRnvG';
