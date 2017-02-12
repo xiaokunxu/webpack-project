@@ -1,0 +1,76 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	background: #eee;
+}
+#app .container{
+	width: 320px;
+	border: 1px solid #777;
+	border-radius: 5px;
+	box-shadow: 2px 4px 18px 0 rgba(0, 0, 0, .5);
+	margin: 100px auto;
+}
+#app .container h1{
+	text-align: center;
+}
+#app .container .list{
+	text-align: center;
+	font-size: 20px;
+	padding: 6px 0;
+}
+#app .btn{
+	display: inline-block;
+	text-align: center;
+	margin: 16px 0 10px;
+	padding: 6px 30px;
+	font-size: 18px;
+	color: #fff;
+	background-color: #333;
+}
+#app .formRow{
+	padding: 10px;
+}
+#app .formActions{
+	text-align: center;
+}
+#app .item{
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	outline: none;
+	font-size: 16px;
+	padding: 10px;
+	box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.3);
+}
+#app .todos{
+	padding-left: 20px;
+	padding-top: 20px;
+}
+.todo{
+	width: 70%;
+	margin: 60px auto;
+}
+.todo .head{
+	float: right;
+}
+.todo .content{
+	padding-top: 40px;
+}
+.todos li{
+	padding: 20px;
+}
+.active{
+	float: right;
+}
+.active span{
+	margin: 30px;
+}
+.active button{
+	width: 30px;
+	height: 20px;
+	line-height: 20px;
+}
