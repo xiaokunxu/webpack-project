@@ -2,7 +2,7 @@ const path = require('path')  // 路径工具
 const fs = require('fs')  //  文件系统工具
 
 let svgFolder = path.join(__dirname, '../static/svg_icons/')
-let jsPath = path.join(__dirname, '../src/assets/icon.js')
+let jsPath = path.join(__dirname, '../src/assets/icons.js')
 
 let svgFiles = fs.readdirSync(svgFolder)
 
