@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
   	<meta charset="utf-8">
-  	<title>个人在线简历</title>
+  	<title>待办事项</title>
   	<link href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -11,16 +11,18 @@
     		<div class="container">
 	    		<h1>Todo List</h1>
 	    		<div class="list">
-	    			<label><input type="radio" name="type" v-model="actionType" value="signUp">注册</label>
-	    			<label><input type="radio" name="type" v-model="actionType" value="login">登录</label>
+	    			<label :class="{active:actionType === 'signUp'}"><input type="radio" name="type" v-model="actionType" value="signUp">注册</label>
+	    			<label :class="{active:actionType === 'login'}"><input type="radio" name="type" v-model="actionType" value="login">登录</label>
 	    		</div>
 	    		<div class="signUp form-group" v-if="actionType=='signUp'">
 	    			<form @submit.prevent=signUp>
 	    				<div class="formRow">
-	    					用户名:<input type="text" class="form-control" v-model="formData.username">
+	    					<p>用户名:</p>
+	    					<input type="text" class="form-control" v-model="formData.username" placeholder="请输入用户名">
 	    				</div>
 	    				<div class="formRow">
-	    					密码:<input type="password" class="form-control" v-model="formData.password">
+	    					<p>密码:</p>
+	    					<input type="password" class="form-control" v-model="formData.password" placeholder="请输入密码">
 	    				</div>
 	    				<div class="formActions">
 	    					<input type="submit" class="btn btn-default" value="注册">
@@ -30,10 +32,12 @@
 	    		<div class="login form-group" v-if="actionType=='login'">
 	    			<form @submit.prevent=login>
 	    				<div class="formRow">
-	    					用户名:<input type="text" class="form-control" v-model="formData.username">
+	    					<p>用户名:</p>
+	    					<input type="text" class="form-control" v-model="formData.username" placeholder="请输入用户名">
 	    				</div>
 	    				<div class="formRow">
-	    					密码:<input type="password" class="form-control" v-model="formData.password">
+	    					<p>密码:</p>
+	    					<input type="password" class="form-control" v-model="formData.password" placeholder="请输入密码">
 	    				</div>
 	    				<div class="formActions">
 	    					<input type="submit" class="btn btn-default" value="登录">
@@ -43,7 +47,10 @@
     		</div>
     	</section>
     	<section id="todo" class="todo" v-if="currentUser">
-    		<span class="head">亲爱的{{currentUser.username}}，你好！<button @click="logout" class="logout">登出</button></span>
+    		<nav class="clearfix">
+    			<span class="head">亲爱的 {{currentUser.username}}，你好！</span>
+    			<button @click="logout" class="logout">登出</button>
+    		</nav>
     		<div class="content">
 	    		<div class="newTask">
 	      			<input type="text" class="item" v-model="newTodo" @keypress.enter="addTodo" placeholder="请输入待办事项">
@@ -52,7 +59,7 @@
 		        	<li v-for="todo in todoList">
 		        		<input type="checkbox" v-model="todo.done">
 		            	<span class="content">{{ todo.title }}</span>
-						<div class="active">
+						<div class="finishitem">
 			            	<span v-if="todo.done">已完成</span>
 			            	<span v-else>未完成</span>
 			            	<span>{{ todo.createdAt }}</span>
