@@ -1,24 +1,50 @@
 *{
 	margin: 0;
 	padding: 0;
+	box-sizing: border-box;
 }
 body{
-	background: #eee;
+	/*background: #eee;*/
+}
+.clearfix:after{
+	content: '';
+	display: block;
+	clear: both;
 }
 #app .container{
-	width: 320px;
+	width: 280px;
 	border: 1px solid #777;
 	border-radius: 5px;
 	box-shadow: 2px 4px 18px 0 rgba(0, 0, 0, .5);
 	margin: 100px auto;
+	background: #eee;
 }
 #app .container h1{
 	text-align: center;
+	font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+	font-style: italic;
+	font-weight: 900;
+	color: #af1212;
 }
 #app .container .list{
 	text-align: center;
 	font-size: 20px;
-	padding: 6px 0;
+	padding: 6px 0 12px;
+}
+#app .container .list label.active{
+	border-bottom: 2px solid #333;
+	opacity: 1;
+}
+#app .container .list label{
+	letter-spacing: 12px;
+	padding-left: 14px;
+    margin: 0 8px;
+    padding-bottom: 8px;
+    cursor: pointer;
+    opacity: 0.6;
+}
+#app .container .list input{
+	display: none;
 }
 #app .btn{
 	display: inline-block;
@@ -31,6 +57,9 @@ body{
 }
 #app .formRow{
 	padding: 10px;
+}
+#app .formRow p{
+	color: #666;
 }
 #app .formActions{
 	text-align: center;
@@ -50,26 +79,37 @@ body{
 	padding-left: 20px;
 	padding-top: 20px;
 }
-.todo{
+.content{
 	width: 70%;
 	margin: 60px auto;
 }
-.todo .head{
-	float: right;
+.todo nav{
+	padding: 8px 20px;
+	/*border-bottom: 1px solid #ccc;*/
+	background: #f7f7f7;
+	box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.2);
 }
-.todo .content{
-	padding-top: 40px;
+.todo nav > .head{
+	float: left;
+	padding-top: 14px;
+}
+.todo nav > .logout{
+	float: right;
+	border: none;
+    padding: 8px 10px;
+    border-radius: 5px;
+    background: #ccc;
 }
 .todos li{
 	padding: 20px;
 }
-.active{
+.finishitem{
 	float: right;
 }
-.active span{
+.finishitem span{
 	margin: 30px;
 }
-.active button{
+.finishitem button{
 	width: 30px;
 	height: 20px;
 	line-height: 20px;
