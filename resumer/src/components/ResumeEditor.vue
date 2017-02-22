@@ -2,17 +2,32 @@
   	<div id="resumeEditor">
 	    <nav>
 	    	<ol>
-	    		<li v-for="(item, index) in resume.visibleItems"
-					:class="{active: item === selected}"
-					@click="selected = item"
+	    		<li v-for="(item, index) in resume.config" :class="{active: item.field === selected}" @click="selected = item.field"
 	    		>
-	    		{{index}}
+	    		<!-- {{index}} -->
+		    		<svg class="icon">
+           				<use :xlink:href="`#icon-${item.icon}`"></use>
+			       </svg>
 	    		</li>
 	    	</ol>
 	    </nav>
 	    <ol class="panels">
-	    	<li v-for="item in resume.visibleItems" v-show="item === selected">
-	    		{{resume[item]}}
+	    	<li v-for="item in resume.config" v-show="item.field === selected">
+		    <!-- {{resume[item.field]}} -->
+		    <!-- <div class="resumeField" v-for="(value, key) in resume[item.field]"> -->
+		    <div v-if="resume[item.field] instanceof Array">
+          		<div class="subitem" v-for="subitem in resume[item.field]">
+            		<div class="resumeField" v-for="(value,key) in subitem">
+              			<label> {{key}} </label>
+              			<input type="text" :value="value">
+            		</div>
+            		<hr>
+          		</div>
+        	</div>
+        	<div v-else class="resumeField" v-for="(value,key) in resume[item.field]">
+		    	<label> {{key}} </label>
+				<input type="text" v-model="resume[item.field][key]">
+		    </div>
 	    	</li>
 	    </ol>
 	</div>
@@ -23,56 +38,117 @@
 	  	name: 'ResumeEditor',
 	  	data() {
 	  		return {
-	  			selected: 'bio',
+	  			selected: 'profile',
 	  			resume: {
-	  				visibleItems: ['bio', 'work history', 'education', 'projects', 'awards', 'contacts', 'others'],
-	  				bio: {
-	  					name: '',
-	  					city: '',
-	  					title: ''
+	  				// visibleItems: ['profile', 'work history', 'education', 'projects', 'awards', 'contacts', 'others'],
+	  				config: [
+	  					{ field: 'profile', icon: 'id' },
+	          			{ field: 'work history', icon: 'work' },
+	         			{ field: 'education', icon: 'book' },
+	         			{ field: 'projects', icon: 'heart' },
+	          			{ field: 'awards', icon: 'cup' },
+				        { field: 'contacts', icon: 'phone' },
+	  				],
+	  				profile: {
+	  					name: '徐XX',
+	  					city: '火星',
+	  					title: '前端工程师'
 	  				},
-	  				'work history': [],
-	  				education: [],
-	  				projects: [],
-	  				awards: [],
-	  				contacts: [],
-	  				others: []
+	  				'work history': [
+	  					{ company: 'AL', content: '我的第二份工作是' },
+	  					{ company: 'TX', content: '我的第一份工作是' },
+	  				],
+	  				education: [
+	  					{ school: '社会大学', content: '研究生' },
+	  					{ school: '社会大学', content: '本科' },
+	  				],
+	  				projects: [
+	  					{ name: '项目2', content: '文字' },
+	  					{ name: '项目1', content: '文字' },
+	  				],
+	  				awards: [
+	  					{ name: 'awards A', content: '文字' },
+	  					{ name: 'awards B', content: '文字' },
+	  				],
+	  				contacts: [
+	  					{ contact: '手机', content: '13412434567' },
+	  					{ contact: 'QQ', content: '12345678' },
+	  				],
+	  				// others: []
 	  			}
 	  		}
 	  	}
 	}
 </script>
 
-<style lang="scss">
-#resumeEditor{
-  	background: #fff;
-  	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .25);
-	display: flex;
-	flex-direction: row;
-	overflow: auto;
-	> nav{
-		width: 80px;
-		background: #000;
-		color: #fff;
-		> ol{
-			> li{
-				height: 48px;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				margin-top: 16px;
-				margin-bottom: 16px;
-				&.active{
-					background: #fff;
-					color: #000;
+<style lang="scss" scoped>
+	#resumeEditor{
+	  	background: #fff;
+	  	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .25);
+		display: flex;
+		flex-direction: row;
+		overflow: auto;
+		> nav{
+			width: 80px;
+			background: #000;
+			color: #fff;
+			> ol{
+				> li{
+					height: 48px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					margin-top: 16px;
+					margin-bottom: 16px;
+					cursor: pointer;
+					&.active{
+						background: #fff;
+						color: #000;
+					}
 				}
 			}
 		}
+		> .panels{
+			flex-grow: 1;
+			color: #666;
+			font-size: 18px;
+			> li{
+				padding: 24px;
+			}
+		}
+		svg.icon{
+			width: 24px;
+			height: 24px;
+		}	
 	}
-}
-ol{
-	list-style: none;
-}
+	ol{
+		list-style: none;
+	}
+	.resumeField{
+		padding-bottom: 18px;
+		> label{
+			display: block;
+		}
+		input[type=text]{
+			margin-top: 8px;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			box-shadow: inset 0 0 1px 0 rgba(0, 0, 0, .25);
+			width: 100%;
+			height: 40px;
+			padding: 0 8px;
+			outline: none;
+		}
+		input[type=text]:focus{
+			border: 1px solid #ccc;
+		}
+	}
+	hr{
+		border: none;
+		border-top: 1px solid #ddd;
+		margin: 24px 0;
+	}
+
 </style>
 
 
