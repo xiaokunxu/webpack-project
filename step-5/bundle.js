@@ -63,167 +63,166 @@
 	var APP_ID = '1KPqugUTvNs5gOaRwq0veCOO-gzGzoHsz';
 	var APP_KEY = '0GW1Fa6sjXfK9104QPdgRnvG';
 	_leancloudStorage2.default.init({
-				appId: APP_ID,
-				appKey: APP_KEY
+					appId: APP_ID,
+					appKey: APP_KEY
 	});
 
 	var app = new _vue2.default({
-				el: '#app',
-				data: {
-							newTodo: '',
-							todoList: [],
-							actionType: 'signUp',
-							formData: {
-										username: '',
-										password: ''
-							},
-							currentUser: null
-				},
+					el: '#app',
+					data: {
+									newTodo: '',
+									todoList: [],
+									actionType: 'signUp',
+									formData: {
+													username: '',
+													password: ''
+									},
+									currentUser: null
+					},
 
-				created: function created() {
-							var _this = this;
+					created: function created() {
+									//将数据保存在localStorage里防止关闭浏览器丢失
+									//   	window.onbeforeunload =()=>{
+									// 	let dataString = JSON.stringify(this.todoList);
+									//   		window.localStorage.setItem('myTodos',dataString);
+									//     		let todoString = JSON.stringify(this.newTodo);
+									//     		window.localStorage.setItem('newTodo',todoString);
+									// }
 
-							//将数据保存在localStorage里防止关闭浏览器丢失
-							window.onbeforeunload = function () {
-										var dataString = JSON.stringify(_this.todoList);
-										window.localStorage.setItem('myTodos', dataString);
-										var todoString = JSON.stringify(_this.newTodo);
-										window.localStorage.setItem('newTodo', todoString);
-							};
+									// let oldDataString = window.localStorage.getItem('myTodos')
+									// let oldData = JSON.parse(oldDataString)
+									// this.todoList = oldData || []
 
-							var oldDataString = window.localStorage.getItem('myTodos');
-							var oldData = JSON.parse(oldDataString);
-							this.todoList = oldData || [];
+									// let oldTodos = window.localStorage.getItem('newTodo')
+									// let oldTodo = JSON.parse(oldTodos)
+									// this.newTodo = oldTodo || ''
 
-							var oldTodos = window.localStorage.getItem('newTodo');
-							var oldTodo = JSON.parse(oldTodos);
-							this.newTodo = oldTodo || '';
+									this.currentUser = this.getCurrentUser();
 
-							this.currentUser = this.getCurrentUser();
+									this.fetchTodos();
+					},
 
-							this.fetchTodos();
-				},
+					methods: {
+									addTodo: function addTodo() {
+													if (!/\S/g.test(this.newTodo)) {
+																	return alert('不能为空哟！');
+													}
+													var date = new Date();
+													var year = date.getFullYear(),
+													    month = parseInt(date.getMonth() + 1),
+													    day = date.getDate(),
+													    hours = date.getHours(),
+													    min = date.getMinutes(),
+													    sec = date.getSeconds();
 
-				methods: {
-							fetchTodos: function fetchTodos() {
-										var _this2 = this;
-
-										if (this.currentUser) {
-													var query = new _leancloudStorage2.default.Query('AllTodos');
-													query.find().then(function (todos) {
-																var avAllTodos = todos[0]; // 理论上 AllTodos 只有一个，所以取结果的第一项
-																var id = avAllTodos.id;
-																_this2.todoList = JSON.parse(avAllTodos.attributes.content); // 有个 attributes 是因为从控制台看到的
-																_this2.todoList.id = id; // 给 todoList 这个数组设置 id 是因为数组也是对象
-													}, function (error) {
-																console.error(error);
+													var time = year + "-" + (month < 10 ? "0" : "") + month + "-" + (day < 10 ? "0" : "") + day + "-" + (hours < 10 ? "0" : "") + hours + ":" + (min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec;
+													this.todoList.push({
+																	title: this.newTodo,
+																	createdAt: time,
+																	done: false // 添加一个 done 属性
 													});
-										}
-							},
-							updateTodos: function updateTodos() {
-										var dataString = JSON.stringify(this.todoList);
-										var avTodos = _leancloudStorage2.default.Object.createWithoutData('AllTodos', this.todoList.id);
-										avTodos.set('content', dataString);
-										avTodos.save().then(function () {
-													console.log('更新成功');
-										});
-							},
-							saveTodos: function saveTodos() {
-										var _this3 = this;
+													this.newTodo = ''; // 变成空
+													this.saveOrUpdateTodos();
+									},
+									removeTodo: function removeTodo(todo) {
+													var index = this.todoList.indexOf(todo);
+													this.todoList.splice(index, 1);
+													this.saveOrUpdateTodos();
+									},
+									fetchTodos: function fetchTodos() {
+													var _this = this;
 
-										var dataString = JSON.stringify(this.todoList);
-										var AVTodos = _leancloudStorage2.default.Object.extend('AllTodos');
-										var avTodos = new AVTodos();
-										var acl = new _leancloudStorage2.default.ACL();
-										acl.acl.setReadAccess(_leancloudStorage2.default.User.current(), true);
-										acl.setWriteAccess(_leancloudStorage2.default.User.current(), true);
-										avTodos.set('content', dataString);
-										avTodos.setACL(acl);
-										avTodos.save().then(function (todo) {
-													_this3.todoList.id = todo.id;
-													console.log('保存成功');
-										}, function (error) {
-													alert('保存失败');
-										});
-							},
-							saveOrUpdateTodos: function saveOrUpdateTodos() {
-										if (this.todoList.id) {
-													this.updateTodos();
-										} else {
-													this.saveTodos();
-										}
-							},
-							addTodo: function addTodo() {
-										if (!/\S/g.test(this.newTodo)) {
-													return alert('不能为空哟！');
-										}
-										var date = new Date();
-										var year = date.getFullYear(),
-										    month = parseInt(date.getMonth() + 1),
-										    day = date.getDate(),
-										    hours = date.getHours(),
-										    min = date.getMinutes(),
-										    sec = date.getSeconds();
+													if (this.currentUser) {
+																	var query = new _leancloudStorage2.default.Query('AllTodos');
+																	query.find().then(function (todos) {
+																					var avAllTodos = todos[0]; // 理论上 AllTodos 只有一个，所以取结果的第一项
+																					var id = avAllTodos.id;
+																					_this.todoList = JSON.parse(avAllTodos.attributes.content); // 有个 attributes 是因为从控制台看到的
+																					_this.todoList.id = id; // 给 todoList 这个数组设置 id 是因为数组也是对象
+																	}, function (error) {
+																					console.error(error);
+																	});
+													}
+									},
 
-										var time = year + "-" + (month < 10 ? "0" : "") + month + "-" + (day < 10 ? "0" : "") + day + "-" + (hours < 10 ? "0" : "") + hours + ":" + (min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec;
-										this.todoList.push({
-													title: this.newTodo,
-													createdAt: time,
-													done: false // 添加一个 done 属性
-										});
-										this.newTodo = ''; // 变成空
-										this.saveOrUpdateTodos();
-							},
-							removeTodo: function removeTodo(todo) {
-										var index = this.todoList.indexOf(todo);
-										this.todoList.splice(index, 1);
-										this.saveOrUpdateTodos();
-							},
-							signUp: function signUp() {
-										var _this4 = this;
+									saveTodos: function saveTodos() {
+													var _this2 = this;
 
-										var user = new _leancloudStorage2.default.User();
-										// 设置用户名
-										user.setUsername(this.formData.username);
-										// 设置密码
-										user.setPassword(this.formData.password);
-										user.signUp().then(function (loginedUser) {
-													_this4.currentUser = _this4.getCurrentUser();
-													alert('注册成功');
-										}, function (error) {
-													alert('注册失败');
-													console.log(error);
-										});
-							},
-							login: function login() {
-										var _this5 = this;
+													var dataString = JSON.stringify(this.todoList);
+													var AVTodos = _leancloudStorage2.default.Object.extend('AllTodos');
+													var avTodos = new AVTodos();
+													var acl = new _leancloudStorage2.default.ACL();
+													acl.setReadAccess(_leancloudStorage2.default.User.current(), true);
+													acl.setWriteAccess(_leancloudStorage2.default.User.current(), true);
+													avTodos.set('content', dataString);
+													avTodos.setACL(acl);
+													avTodos.save().then(function (todo) {
+																	_this2.todoList.id = todo.id;
+																	console.log('保存成功');
+													}, function (error) {
+																	alert('保存失败');
+													});
+									},
+									updateTodos: function updateTodos() {
+													var dataString = JSON.stringify(this.todoList);
+													var avTodos = _leancloudStorage2.default.Object.createWithoutData('AllTodos', this.todoList.id);
+													avTodos.set('content', dataString);
+													avTodos.save().then(function () {
+																	console.log('更新成功');
+													});
+									},
+									saveOrUpdateTodos: function saveOrUpdateTodos() {
+													if (this.todoList.id) {
+																	this.updateTodos();
+													} else {
+																	this.saveTodos();
+													}
+									},
+									signUp: function signUp() {
+													var _this3 = this;
 
-										_leancloudStorage2.default.User.logIn(this.formData.username, this.formData.password).then(function (loginedUser) {
-													_this5.currentUser = _this5.getCurrentUser();
-													_this5.fetchTodos(); // 登录成功后读取 todos
-										}, function (error) {
-													alert('请输入正确的用户名或密码');
-										});
-							},
-							logout: function logout() {
-										_leancloudStorage2.default.User.logOut();
-										this.currentUser = null;
-										window.location.reload(); //重新加载
-							},
-							getCurrentUser: function getCurrentUser() {
-										// 解构赋值
-										var current = _leancloudStorage2.default.User.current();
-										if (current) {
-													var id = current.id,
-													    createdAt = current.createdAt,
-													    username = current.attributes.username;
+													var user = new _leancloudStorage2.default.User();
+													// 设置用户名
+													user.setUsername(this.formData.username);
+													// 设置密码
+													user.setPassword(this.formData.password);
+													user.signUp().then(function (loginedUser) {
+																	_this3.currentUser = _this3.getCurrentUser();
+																	alert('注册成功');
+													}, function (error) {
+																	alert('注册失败');
+																	// console.log(error)
+													});
+									},
+									login: function login() {
+													var _this4 = this;
 
-													return { id: id, username: username, createdAt: createdAt };
-										} else {
-													return null;
-										}
-							}
-				}
+													_leancloudStorage2.default.User.logIn(this.formData.username, this.formData.password).then(function (loginedUser) {
+																	_this4.currentUser = _this4.getCurrentUser();
+																	_this4.fetchTodos(); // 登录成功后读取 todos
+													}, function (error) {
+																	alert('请输入正确的用户名或密码');
+													});
+									},
+									logout: function logout() {
+													_leancloudStorage2.default.User.logOut();
+													this.currentUser = null;
+													window.location.reload(); //重新加载
+									},
+									getCurrentUser: function getCurrentUser() {
+													// 解构赋值
+													var current = _leancloudStorage2.default.User.current();
+													if (current) {
+																	var id = current.id,
+																	    createdAt = current.createdAt,
+																	    username = current.attributes.username;
+
+																	return { id: id, username: username, createdAt: createdAt };
+													} else {
+																	return null;
+													}
+									}
+					}
 	});
 
 /***/ },
@@ -24968,7 +24967,7 @@
 
 
 	// module
-	exports.push([module.id, "*{\n\tmargin: 0;\n\tpadding: 0;\n}\nbody{\n\tbackground: #eee;\n}\n#app .container{\n\twidth: 320px;\n\tborder: 1px solid #777;\n\tborder-radius: 5px;\n\tbox-shadow: 2px 4px 18px 0 rgba(0, 0, 0, .5);\n\tmargin: 100px auto;\n}\n#app .container h1{\n\ttext-align: center;\n}\n#app .container .list{\n\ttext-align: center;\n\tfont-size: 20px;\n\tpadding: 6px 0;\n}\n#app .btn{\n\tdisplay: inline-block;\n\ttext-align: center;\n\tmargin: 16px 0 10px;\n\tpadding: 6px 30px;\n\tfont-size: 18px;\n\tcolor: #fff;\n\tbackground-color: #333;\n}\n#app .formRow{\n\tpadding: 10px;\n}\n#app .formActions{\n\ttext-align: center;\n}\n#app .item{\n\twidth: 100%;\n\theight: 50px;\n\tline-height: 50px;\n\tborder: 1px solid #ccc;\n\tborder-radius: 6px;\n\toutline: none;\n\tfont-size: 16px;\n\tpadding: 10px;\n\tbox-shadow: 1px 1px 3px 1px rgba(0,0,0,0.3);\n}\n#app .todos{\n\tpadding-left: 20px;\n\tpadding-top: 20px;\n}\n.todo{\n\twidth: 70%;\n\tmargin: 60px auto;\n}\n.todo .head{\n\tfloat: right;\n}\n.todo .content{\n\tpadding-top: 40px;\n}\n.todos li{\n\tpadding: 20px;\n}\n.active{\n\tfloat: right;\n}\n.active span{\n\tmargin: 30px;\n}\n.active button{\n\twidth: 30px;\n\theight: 20px;\n\tline-height: 20px;\n}", ""]);
+	exports.push([module.id, "*{\n\tmargin: 0;\n\tpadding: 0;\n\tbox-sizing: border-box;\n}\nbody{\n\t/*background: #eee;*/\n}\n.clearfix:after{\n\tcontent: '';\n\tdisplay: block;\n\tclear: both;\n}\n#app .container{\n\twidth: 280px;\n\tborder: 1px solid #777;\n\tborder-radius: 5px;\n\tbox-shadow: 2px 4px 18px 0 rgba(0, 0, 0, .5);\n\tmargin: 100px auto;\n\tbackground: #eee;\n}\n#app .container h1{\n\ttext-align: center;\n\tfont-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;\n\tfont-style: italic;\n\tfont-weight: 900;\n\tcolor: #af1212;\n}\n#app .container .list{\n\ttext-align: center;\n\tfont-size: 20px;\n\tpadding: 6px 0 12px;\n}\n#app .container .list label.active{\n\tborder-bottom: 2px solid #333;\n\topacity: 1;\n}\n#app .container .list label{\n\tletter-spacing: 12px;\n\tpadding-left: 14px;\n    margin: 0 8px;\n    padding-bottom: 8px;\n    cursor: pointer;\n    opacity: 0.6;\n}\n#app .container .list input{\n\tdisplay: none;\n}\n#app .btn{\n\tdisplay: inline-block;\n\ttext-align: center;\n\tmargin: 16px 0 10px;\n\tpadding: 6px 30px;\n\tfont-size: 18px;\n\tcolor: #fff;\n\tbackground-color: #333;\n}\n#app .formRow{\n\tpadding: 10px;\n}\n#app .formRow p{\n\tcolor: #666;\n}\n#app .formActions{\n\ttext-align: center;\n}\n#app .item{\n\twidth: 100%;\n\theight: 50px;\n\tline-height: 50px;\n\tborder: 1px solid #ccc;\n\tborder-radius: 6px;\n\toutline: none;\n\tfont-size: 16px;\n\tpadding: 10px;\n\tbox-shadow: 1px 1px 3px 1px rgba(0,0,0,0.3);\n}\n#app .todos{\n\tpadding-left: 20px;\n\tpadding-top: 20px;\n}\n.content{\n\twidth: 70%;\n\tmargin: 60px auto;\n}\n.todo nav{\n\tpadding: 8px 20px;\n\t/*border-bottom: 1px solid #ccc;*/\n\tbackground: #f7f7f7;\n\tbox-shadow: 0px 0px 2px 1px rgba(0,0,0,0.2);\n}\n.todo nav > .head{\n\tfloat: left;\n\tpadding-top: 14px;\n}\n.todo nav > .logout{\n\tfloat: right;\n\tborder: none;\n    padding: 8px 10px;\n    border-radius: 5px;\n    background: #ccc;\n}\n.todos li{\n\tpadding: 20px;\n}\n.finishitem{\n\tfloat: right;\n}\n.finishitem span{\n\tmargin: 30px;\n}\n.finishitem button{\n\twidth: 30px;\n\theight: 20px;\n\tline-height: 20px;\n}", ""]);
 
 	// exports
 
