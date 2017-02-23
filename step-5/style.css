@@ -4,7 +4,7 @@
 	box-sizing: border-box;
 }
 body{
-	/*background: #eee;*/
+	background: #f7fafc;
 }
 .clearfix:after{
 	content: '';
@@ -13,11 +13,11 @@ body{
 }
 #app .container{
 	width: 280px;
-	border: 1px solid #777;
+	border: 1px solid #999;
 	border-radius: 5px;
-	box-shadow: 2px 4px 18px 0 rgba(0, 0, 0, .5);
+	box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, .3);
 	margin: 100px auto;
-	background: #eee;
+	background: #fff;
 }
 #app .container h1{
 	text-align: center;
@@ -32,7 +32,8 @@ body{
 	padding: 6px 0 12px;
 }
 #app .container .list label.active{
-	border-bottom: 2px solid #333;
+	border-bottom: 2px solid #0f88eb;
+	color: #0f88eb;
 	opacity: 1;
 }
 #app .container .list label{
@@ -53,7 +54,10 @@ body{
 	padding: 6px 30px;
 	font-size: 18px;
 	color: #fff;
-	background-color: #333;
+	background-color: #0f88eb;
+}
+#app .btn:hover{
+	opacity: 0.8;
 }
 #app .formRow{
 	padding: 10px;
