@@ -172,6 +172,7 @@ module: {
     ```
 
 3. 将 normalize.css 和 reset.css 移到最前面
+
 4. 使用 flex 布局
 
 ## 六、生成预览链接
