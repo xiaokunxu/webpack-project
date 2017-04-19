@@ -187,7 +187,8 @@ $ npm run build
 最后会生成一个 dist 目录，直接预览页面就可以了（必须是 http 协议）
 
 # 预览
-[](https://xiaokunxu.github.io/webpack-project/resumer/dist/#/)
+
+[预览地址](https://xiaokunxu.github.io/webpack-project/resumer/dist/#/)
 ![](http://i1.piimg.com/567571/4d22734e24497294.jpg)
 
 ## Build Setup
