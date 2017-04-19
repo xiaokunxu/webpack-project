@@ -169,7 +169,7 @@ module: {
 
     在 resumer/src/App.vue 文件中添加：
     import 'normalize.css/normalize.css'
-    ```
+```
 
 3. 将 normalize.css 和 reset.css 移到最前面
 
@@ -178,6 +178,7 @@ module: {
 ## 六、生成预览链接
 首先将 ``config/index.js`` 中的 ``assetsPublicPath`` 改为 ``'/webpack-project/resumer/dist'``
 然后运行：
+
 ```
 $ npm run build
 ```
