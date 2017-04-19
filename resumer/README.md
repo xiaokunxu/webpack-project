@@ -63,7 +63,7 @@ $ vue init webpack .   // 注意这里的 . 字符
 $ npm i
 $ npm run dev
 
-3. 运行完 ``npm run dev`` 浏览器会自动弹出并访问了()[ http://localhost:8080/#/]。
+3. 运行完 ``npm run dev`` 浏览器会自动弹出并访问了[](http://localhost:8080/#/)。
 
 4. webpack 已经在命令行持续运行着，不要关掉它。打开 resumer 目录，看看 vue-cli 生成了什么。
 
@@ -149,6 +149,7 @@ module: {
 
 ## 五、添加样式
 1. 添加 reset.css
+
 	```
 	在 App.vue 文件中添加：
 	import '.assets/reset.css'
@@ -156,9 +157,10 @@ module: {
 	在 resumer/src/assets/reset.css 文件中添加：
 	*{margin:0; padding:0; box-sizing: border-box; }
  	*::after, *::before{box-sizing:border-box;}
-
 	```
+  
 2. 添加 normalize.css
+
   ```
 	在 resumer/package.json 文件中添加：
 	"dependencies": {
