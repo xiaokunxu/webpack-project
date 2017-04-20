@@ -6,7 +6,7 @@
 4. 打开 page.html
 
 # 预览
-[预览地址](https://xiaokunxu.github.io/webpack-demo/step-3/page.html)
+[预览地址](https://xiaokunxu.github.io/webpack-project/step-5/page.html)
 
 # TodoList
 ### 基本功能
