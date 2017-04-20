@@ -29,10 +29,6 @@
 				<input type="text" v-model="resume[item.field][key]">
 		    </div>
 	    	</li>
-	    	<li>
-	    		{{count}}
-	    		<button @click="add">test</button>
-	    	</li>
 	    </ol>
 	</div>
 </template>
@@ -41,9 +37,6 @@
     export default {
         name: 'ResumeEditor',
         computed: { // 只用于读取数据
-            count() {
-                return this.$store.state.count
-            },
             selected() {
                 return this.$store.state.selected
             },
@@ -51,11 +44,7 @@
                 return this.$store.state.resume
             }
         },
-        methods: {
-            add() {
-                this.$store.commit('increment')
-            }
-        }
+        methods: {}
     }
 </script>
 

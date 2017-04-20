@@ -5,7 +5,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        count: 0,
         selected: 'profile',
         resume: {
             // visibleItems: ['profile', 'work history', 'education', 'projects', 'awards', 'contacts', 'others'],
@@ -45,9 +44,6 @@ export default new Vuex.Store({
         }
     },
     mutations: {
-        increment(state) {
-            state.count++
-        },
         switchTap(state, payload) {
             state.selected = payload
         }
