@@ -38,151 +38,95 @@
 </template>
 
 <script>
-	export default {
-	  	name: 'ResumeEditor',
-	  	// data() {
-	  	// 	return {
-	  	// 		selected: 'profile',
-	  	// 		resume: {
-	  	// 			// visibleItems: ['profile', 'work history', 'education', 'projects', 'awards', 'contacts', 'others'],
-	  	// 			config: [
-	  	// 				{ field: 'profile', icon: 'id' },
-	   //        			{ field: 'work history', icon: 'work' },
-	   //       			{ field: 'education', icon: 'book' },
-	   //       			{ field: 'projects', icon: 'heart' },
-	   //        			{ field: 'awards', icon: 'cup' },
-				//         { field: 'contacts', icon: 'phone' },
-	  	// 			],
-	  	// 			profile: {
-	  	// 				name: '徐XX',
-	  	// 				city: '火星',
-	  	// 				title: '前端工程师'
-	  	// 			},
-	  	// 			'work history': [
-	  	// 				{ company: 'AL', content: '我的第二份工作是' },
-	  	// 				{ company: 'TX', content: '我的第一份工作是' },
-	  	// 			],
-	  	// 			education: [
-	  	// 				{ school: '社会大学', content: '研究生' },
-	  	// 				{ school: '社会大学', content: '本科' },
-	  	// 			],
-	  	// 			projects: [
-	  	// 				{ name: '项目2', content: '文字' },
-	  	// 				{ name: '项目1', content: '文字' },
-	  	// 			],
-	  	// 			awards: [
-	  	// 				{ name: 'awards A', content: '文字' },
-	  	// 				{ name: 'awards B', content: '文字' },
-	  	// 			],
-	  	// 			contacts: [
-	  	// 				{ contact: '手机', content: '13412434567' },
-	  	// 				{ contact: 'QQ', content: '12345678' },
-	  	// 			],
-	  	// 			// others: []
-	  	// 		}
-	  	// 	}
-	  	// },
-	  	computed: {   // 只用于读取数据
-	  		count () {
-	  			return this.$store.state.count
-	  		},
-	  		selected () {
-	  			return this.$store.state.selected
-		  	},
-		  	resume () {
-		  		return this.$store.state.resume
-		  	}
-	  	},
-	  	methods: {
-	  		add () {
-	  			this.$store.commit('increment')
-	  		}
-	  	}
-	}
+    export default {
+        name: 'ResumeEditor',
+        computed: { // 只用于读取数据
+            count() {
+                return this.$store.state.count
+            },
+            selected() {
+                return this.$store.state.selected
+            },
+            resume() {
+                return this.$store.state.resume
+            }
+        },
+        methods: {
+            add() {
+                this.$store.commit('increment')
+            }
+        }
+    }
 </script>
 
 <style lang="scss" scoped>
-	#resumeEditor{
-	  	background: #fff;
-	  	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .25);
-		display: flex;
-		flex-direction: row;
-		overflow: auto;
-		> nav{
-			width: 80px;
-			background: #000;
-			color: #fff;
-			> ol{
-				> li{
-					height: 48px;
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					margin-top: 16px;
-					margin-bottom: 16px;
-					cursor: pointer;
-					&.active{
-						background: #fff;
-						color: #000;
-					}
-				}
-			}
-		}
-		> .panels{
-			flex-grow: 1;
-			color: #666;
-			font-size: 18px;
-			> li{
-				padding: 24px;
-			}
-		}
-		svg.icon{
-			width: 24px;
-			height: 24px;
-		}	
-	}
-	ol{
-		list-style: none;
-	}
-	.resumeField{
-		padding-bottom: 18px;
-		> label{
-			display: block;
-		}
-		input[type=text]{
-			margin-top: 8px;
-			border: 1px solid #ddd;
-			border-radius: 4px;
-			box-shadow: inset 0 0 1px 0 rgba(0, 0, 0, .25);
-			width: 100%;
-			height: 40px;
-			padding: 0 8px;
-			outline: none;
-		}
-		input[type=text]:focus{
-			border: 1px solid #ccc;
-		}
-	}
-	hr{
-		border: none;
-		border-top: 1px solid #ddd;
-		margin: 24px 0;
-	}
-
+    #resumeEditor {
+        background: #fff;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .25);
+        display: flex;
+        flex-direction: row;
+        overflow: auto;
+        >nav {
+            width: 80px;
+            background: #000;
+            color: #fff;
+            >ol {
+                >li {
+                    height: 48px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-top: 16px;
+                    margin-bottom: 16px;
+                    cursor: pointer;
+                    &.active {
+                        background: #fff;
+                        color: #000;
+                    }
+                }
+            }
+        }
+        >.panels {
+            flex-grow: 1;
+            color: #666;
+            font-size: 18px;
+            >li {
+                padding: 24px;
+            }
+        }
+        svg.icon {
+            width: 24px;
+            height: 24px;
+        }
+    }
+    
+    ol {
+        list-style: none;
+    }
+    
+    .resumeField {
+        padding-bottom: 18px;
+        >label {
+            display: block;
+        }
+        input[type=text] {
+            margin-top: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: inset 0 0 1px 0 rgba(0, 0, 0, .25);
+            width: 100%;
+            height: 40px;
+            padding: 0 8px;
+            outline: none;
+        }
+        input[type=text]:focus {
+            border: 1px solid #ccc;
+        }
+    }
+    
+    hr {
+        border: none;
+        border-top: 1px solid #ddd;
+        margin: 24px 0;
+    }
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
