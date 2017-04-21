@@ -45,7 +45,7 @@ export default new Vuex.Store({
         }
     },
     mutations: {
-        switchTap(state, payload) {
+        switchTab(state, payload) {
             state.selected = payload
         }
     }
