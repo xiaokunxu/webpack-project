@@ -23,7 +23,7 @@ export default new Vuex.Store({
                 birthday: '1993-01-01'
             },
             'workHistory': [
-                { company: 'AL', content: '我的第二份工作是' },
+                { company: '酱油公司', content: '专注打酱油100年，主要负责界面设计' },
                 { company: 'TX', content: '我的第一份工作是' },
             ],
             education: [
