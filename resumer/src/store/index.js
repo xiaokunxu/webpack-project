@@ -10,7 +10,7 @@ export default new Vuex.Store({
             // visibleItems: ['profile', 'work history', 'education', 'projects', 'awards', 'contacts', 'others'],
             config: [
                 { field: 'profile', icon: 'id' },
-                { field: 'work history', icon: 'work' },
+                { field: 'workHistory', icon: 'work' },
                 { field: 'education', icon: 'book' },
                 { field: 'projects', icon: 'heart' },
                 { field: 'awards', icon: 'cup' },
@@ -19,9 +19,10 @@ export default new Vuex.Store({
             profile: {
                 name: '徐XX',
                 city: '火星',
-                title: '前端工程师'
+                title: '前端工程师',
+                birthday: '1993-01-01'
             },
-            'work history': [
+            'workHistory': [
                 { company: 'AL', content: '我的第二份工作是' },
                 { company: 'TX', content: '我的第一份工作是' },
             ],
