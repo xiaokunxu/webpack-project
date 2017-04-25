@@ -536,7 +536,7 @@ template {
     font-size: 24px;
     color: #000;
 }
-button[data-v-a0a88fb8] {
+.button[data-v-a0a88fb8] {
   width: 72px;
   height: 32px;
   border: none;
@@ -544,13 +544,54 @@ button[data-v-a0a88fb8] {
   font-size: 18px;
   background: #ddd;
   color: #222;
+  text-decoration: none;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-pack: center;
+      justify-content: center;
+  vertical-align: middle;
 }
-button[data-v-a0a88fb8]:hover {
+.button[data-v-a0a88fb8]:hover {
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
-button.primary[data-v-a0a88fb8] {
+.button.primary[data-v-a0a88fb8] {
     background: #02af5f;
     color: #fff;
+}
+.actions > a[data-v-a0a88fb8] {
+  line-height: 32px;
+}
+
+.wrapper[data-v-5083911a] {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.25);
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+      justify-content: center;
+  -ms-flex-align: center;
+      align-items: center;
+}
+.dialog[data-v-5083911a] {
+  background: #fff;
+  min-height: 4em;
+  min-width: 10em;
+}
+.dialog > header[data-v-5083911a] {
+    padding: 16px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+        justify-content: space-between;
+}
+.dialog[data-v-5083911a],
+  .dialog > main[data-v-5083911a] {
+    padding: 16px;
 }
 
 #resumeEditor[data-v-53358100] {
@@ -691,4 +732,4 @@ a[data-v-524cd6bc] {
   color: #42b983;
 }
 
-/*# sourceMappingURL=app.5f4963b1bfeb3108d101910dd4061638.css.map*/
+/*# sourceMappingURL=app.73de81f78b7059ef4b0333a3337eed8c.css.map*/
