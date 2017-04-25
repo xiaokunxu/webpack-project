@@ -3,14 +3,15 @@
         <form @submit.prevent="signUp">
             <div class="row">
                 <label>用户名</label>
-                <input type="text" v-model="formData.username">
+                <input type="text" v-model="formData.username" required>
             </div>
             <div class="row">
                 <label>密码</label>
-                <input type="text" v-model="formData.password">
+                <input type="text" v-model="formData.password" required>
             </div>
             <div class="actions">
                 <input type="submit" value="提交">
+                <span class="errorMessage">{{errorMessage}}</span>
             </div>
         </form>
     </div>
@@ -18,6 +19,7 @@
 
 <script>
     import AV from '../lib/leancloud'
+    import getErrorMessage from '../lib/getErrorMessage'
 
     export default {
         name: 'SignUpForm',
@@ -26,7 +28,8 @@
                 formData: {
                     username: '',
                     password: ''
-                }
+                },
+                errorMessage: ''
             }
         },
         created() {
@@ -47,7 +50,7 @@
                         id: loginedUser.id
                     })
                 }, (error) => {
-                    alert(JSON.stringify(error));
+                    this.errorMessage = getErrorMessage(error)
                 });
             }
         }
