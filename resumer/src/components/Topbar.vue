@@ -3,12 +3,17 @@
     <div class="wrapper">
     	<span class="logo">Resumer</span>
     	<div class="actions">
-			<span>{{user}}</span>
-			<a class="button primary" href="#" @click.prevent="signUpDialogVisible = true">注册</a>
-			<MyDialog title="注册" :visible="signUpDialogVisible" @close="signUpDialogVisible = false">
-				<SignUpForm @success="login($event)"/>
-			</MyDialog>
-			<a class="button" href="#">登录</a>
+            <div v-if="logined" class="userActions">
+                <span>你好，{{user.username}}</span>
+                <a class="button" href="#">登出</a>
+            </div>
+            <div v-else class="userActions">
+                <a class="button primary" href="#" @click.prevent="signUpDialogVisible = true">注册</a>
+			    <MyDialog title="注册" :visible="signUpDialogVisible" @close="signUpDialogVisible = false">
+				        <SignUpForm @success="login($event)"/>
+			    </MyDialog>
+			    <a class="button" href="#">登录</a>
+            </div>
     		<button class="button primary">保存</button>
     		<button class="button">预览</button>
     	</div>
@@ -29,6 +34,9 @@
         computed: {
             user() {
                 return this.$store.state.user
+            },
+            logined() {
+                return this.user.id
             }
         },
         components: {
@@ -87,7 +95,13 @@
         }
     }
     
-    .actions>a {
-        line-height: 32px;
+    .actions {
+        display: flex;
+        a {
+            line-height: 32px;
+        }
+        .userActions {
+            margin-right: 3em;
+        }
     }
 </style>
