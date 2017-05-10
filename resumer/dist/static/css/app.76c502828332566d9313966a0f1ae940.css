@@ -558,11 +558,21 @@ template {
     background: #02af5f;
     color: #fff;
 }
-.actions > a[data-v-a0a88fb8] {
-  line-height: 32px;
+.actions[data-v-a0a88fb8] {
+  display: -ms-flexbox;
+  display: flex;
+}
+.actions a[data-v-a0a88fb8] {
+    line-height: 32px;
+}
+.actions .userActions[data-v-a0a88fb8] {
+    margin-right: 3em;
+}
+.actions .userActions .welcome[data-v-a0a88fb8] {
+      margin-right: 0.5em;
 }
 
-.wrapper[data-v-5083911a] {
+.dialogWrapper[data-v-5083911a] {
   position: fixed;
   background: rgba(0, 0, 0, 0.25);
   top: 0;
@@ -732,4 +742,4 @@ a[data-v-524cd6bc] {
   color: #42b983;
 }
 
-/*# sourceMappingURL=app.73de81f78b7059ef4b0333a3337eed8c.css.map*/
+/*# sourceMappingURL=app.76c502828332566d9313966a0f1ae940.css.map*/
