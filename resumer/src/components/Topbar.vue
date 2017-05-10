@@ -14,7 +14,7 @@
                 </MyDialog>
                 <a class="button" href="#" @click.prevent="signUpDialogVisible = true">登录</a>
                 <MyDialog title="登录" :visible="signUpDialogVisible" @close="signUpDialogVisible = false">
-                    <SignUpForm/>
+                    <SignUpForm @success="signIn($event)"/>
                 </MyDialog>
             </div>
     		<button class="button primary">保存</button>
@@ -56,6 +56,7 @@
                 this.$store.commit('removeUser')
             },
             signIn(user) {
+                this.signUpDialogVisible = false
                 this.signUpDialogVisible = false
                 this.$store.commit('setUser', user)
             }
