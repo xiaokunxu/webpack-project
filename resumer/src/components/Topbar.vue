@@ -3,24 +3,24 @@
     <div class="wrapper">
     	<span class="logo">Resumer</span>
     	<div class="actions">
-            <div v-if="logined" class="userActions">
-                <span class="welcome">你好，{{user.username}}</span>
-                <a class="button" href="#" @click.prevent="signOut">登出</a>
-            </div>
-            <div v-else class="userActions">
-                <a class="button primary" href="#" @click.prevent="signUpDialogVisible = true">注册</a>
-                <a class="button" href="#" @click.prevent="signUpDialogVisible = true">登录</a>
-            </div>
-    		<button class="button primary">保存</button>
-    		<button class="button">预览</button>
-    	</div>
-        <MyDialog title="注册" :visible="signUpDialogVisible" @close="signUpDialogVisible = false">
-                <SignUpForm @success="signIn($event)"/>
-        </MyDialog>
-        <MyDialog title="登录" :visible="signUpDialogVisible" @close="signUpDialogVisible = false">
-                <SignInForm />
-        </MyDialog>
-    </div>
+         <div v-if="logined" class="userActions">
+           <span class="welcome">你好，{{user.username}}</span>
+           <a class="button" href="#" @click.prevent="signOut">登出</a>
+         </div>
+         <div v-else class="userActions">
+           <a class="button primary" href="#" @click.prevent="signUpDialogVisible = true">注册</a>
+           <a class="button" href="#" @click.prevent="signInDialogVisible = true">登录</a>
+         </div>
+         <button class="button primary">保存</button>
+         <button class="button">预览</button>
+       </div>
+     </div>
+     <MyDialog title="注册" :visible="signUpDialogVisible" @close="signUpDialogVisible = false">
+        <SignUpForm @success="signIn($event)"/>
+     </MyDialog>
+     <MyDialog title="登录" :visible="signInDialogVisible" @close="signInDialogVisible = false">
+        <SignInForm @success="signIn($event)"/>
+     </MyDialog>
   </div>
 </template>
 
@@ -34,7 +34,7 @@
         data() {
             return {
                 signUpDialogVisible: false,
-                signUpDialogVisible: false
+                signInDialogVisible: false,
             }
         },
         computed: {
@@ -50,13 +50,14 @@
             SignUpForm,
             SignInForm
         },
-        mmethods: {
+        methods: {
             signOut() {
                 AV.User.logOut()
                 this.$store.commit('removeUser')
             },
             signIn(user) {
                 this.signUpDialogVisible = false
+                this.signInDialogVisible = false
                 this.$store.commit('setUser', user)
             }
         }

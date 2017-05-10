@@ -39,7 +39,7 @@
                     username,
                     password
                 } = this.formData
-                AV.User().logiIn(username, password).then(() => {
+                AV.User.logIn(username, password).then(() => {
                     this.$emit('success', getAVUser())
                 }, (error) => {
                     this.errorMessage = getErrorMessage(error)
