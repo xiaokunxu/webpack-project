@@ -41,10 +41,9 @@
             document.body.insertAdjacentHTML('afterbegin', icons)
             let state = localStorage.getItem('state')
             if (state) {
-                // 暂时先关闭，以免影响下面开发
-                // state = JSON.parse(state)
+                state = JSON.parse(state)
             }
-            this.$store.commit('initState', state)
+            this.$store.commit('initState', {})
             this.$store.commit('setUser', getAVUser())
         }
     }
